@@ -11,12 +11,11 @@ function tinybarToHbar(tinybarAmount: ethers.BigNumber): string {
 }
 
 async function main() {
-    const hederaProvider = new providers.JsonRpcProvider(
-        'RPC URL GOES HERE'
-    )
+    const hederaProvider = new providers.JsonRpcProvider('https://296.rpc.thirdweb.com')
     const hederaPrivateKey = process.env.PRIVATE_KEY || ''
     const hederaWallet = new Wallet(hederaPrivateKey, hederaProvider)
     const hederaContractAddress = '0x768F7883954dd08B80C2157263A6D08804B3df1E' // OApp deployed address
+    // const hederaContractAddress = '0xF1a49FDF88539B2fe052d76C5bB2F16a0AD67E4d' // OApp deployed address
     const hederaContract = new Contract(hederaContractAddress, MyOAppArtifact.abi, hederaWallet)
 
     console.log('Contract address:', hederaContractAddress)
