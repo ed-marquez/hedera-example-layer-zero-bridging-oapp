@@ -56,7 +56,7 @@ LayerZero's OApp enables communication between smart contracts across different 
 8. Move the test file to the `deploy` folder and run the test to send a message between chains:
 
    ```bash
-   mv sendAcrossChainsLz.test.ts deploy/
+   mv sendAcrossChainsLz.ts deploy/
    npx hardhat run ./deploy/sendAcrossChainsLz.ts
    ```
 
