@@ -2,4 +2,4 @@ tasks:
   - name: Setup environment
     init: |
       cp .env.sample .env
-      npm install
+      pnpm install

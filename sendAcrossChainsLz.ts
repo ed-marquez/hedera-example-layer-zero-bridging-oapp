@@ -14,8 +14,7 @@ async function main() {
     const hederaProvider = new providers.JsonRpcProvider('https://296.rpc.thirdweb.com')
     const hederaPrivateKey = process.env.PRIVATE_KEY || ''
     const hederaWallet = new Wallet(hederaPrivateKey, hederaProvider)
-    const hederaContractAddress = '0x768F7883954dd08B80C2157263A6D08804B3df1E' // OApp deployed address
-    // const hederaContractAddress = '0xF1a49FDF88539B2fe052d76C5bB2F16a0AD67E4d' // OApp deployed address
+    const hederaContractAddress = process.env.MY_OAPP_HEDERA_CONTRACT_ADDRESS || ''
     const hederaContract = new Contract(hederaContractAddress, MyOAppArtifact.abi, hederaWallet)
 
     console.log('Contract address:', hederaContractAddress)
@@ -23,7 +22,6 @@ async function main() {
 
     const testCases = [
         { dstEid: EndpointId.AVALANCHE_V2_TESTNET, message: 'Hello from Hedera!', payInLzToken: false },
-        { dstEid: 0, message: 'Hello from Hedera!', payInLzToken: false },
         // You can add more test cases as needed
     ]
 
@@ -46,6 +44,10 @@ async function main() {
             )
             console.log(`Quoted fee - Native Fee: ${nativeFee} HBAR, LZ Token Fee: ${lzTokenFee.toString()}`)
 
+            // Adjust the native fee as in the driver script
+            // For HBAR (8 decimals), ensure you're sending enough value
+            // Multiply nativeFee by appropriate factor if needed
+
             // Since HBAR uses 8 decimals (tinybars), but ethers.js uses 18 decimals by default (wei denomination),
             // you need to scale the fee appropriately
 
@@ -53,7 +55,7 @@ async function main() {
             const adjustedNativeFee = nativeFee.mul(ethers.BigNumber.from(10).pow(10)) // Adjust for decimal difference
             console.log(`Adjusted Native Fee: ${tinybarToHbar(adjustedNativeFee)} HBAR`)
 
-            // Estimate gas
+            // Estimate gas if needed
             const estimatedGas = await hederaContract.estimateGas.send(testCase.dstEid, testCase.message, optionsHex, {
                 value: adjustedNativeFee,
             })
@@ -66,6 +68,7 @@ async function main() {
             })
             console.log('Transaction hash:', tx.hash)
 
+            // Wait for the transaction to be mined
             const receipt = await tx.wait()
             console.log('Transaction confirmed in block:', receipt.blockNumber)
         } catch (error: any) {

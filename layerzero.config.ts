@@ -1,96 +1,10 @@
-import { EndpointId } from '@layerzerolabs/lz-definitions'
-
-import type { OAppOmniGraphHardhat, OmniPointHardhat } from '@layerzerolabs/toolbox-hardhat'
-
-const sepoliaContract: OmniPointHardhat = {
-    eid: EndpointId.SEPOLIA_V2_TESTNET,
-    contractName: 'MyOApp',
-}
-
-const fujiContract: OmniPointHardhat = {
+import { EndpointId } from "@layerzerolabs/lz-definitions";
+const avalanche_testnetContract = {
     eid: EndpointId.AVALANCHE_V2_TESTNET,
-    contractName: 'MyOApp',
-}
-
-const amoyContract: OmniPointHardhat = {
-    eid: EndpointId.AMOY_V2_TESTNET,
-    contractName: 'MyOApp',
-}
-
-const config: OAppOmniGraphHardhat = {
-    contracts: [
-        {
-            contract: fujiContract,
-            /**
-             * This config object is optional.
-             * The callerBpsCap refers to the maximum fee (in basis points) that the contract can charge.
-             */
-
-            // config: {
-            //     callerBpsCap: BigInt(300),
-            // },
-        },
-        {
-            contract: sepoliaContract,
-        },
-        {
-            contract: amoyContract,
-        },
-    ],
-    connections: [
-        {
-            from: fujiContract,
-            to: sepoliaContract,
-            config: {
-                sendConfig: {
-                    executorConfig: {
-                        maxMessageSize: 99,
-                        executor: '0x71d7a02cDD38BEa35E42b53fF4a42a37638a0066',
-                    },
-                    ulnConfig: {
-                        confirmations: BigInt(42),
-                        requiredDVNs: [],
-                        optionalDVNs: [
-                            '0xe9dCF5771a48f8DC70337303AbB84032F8F5bE3E',
-                            '0x0AD50201807B615a71a39c775089C9261A667780',
-                        ],
-                        optionalDVNThreshold: 2,
-                    },
-                },
-                receiveConfig: {
-                    ulnConfig: {
-                        confirmations: BigInt(42),
-                        requiredDVNs: [],
-                        optionalDVNs: [
-                            '0x3Eb0093E079EF3F3FC58C41e13FF46c55dcb5D0a',
-                            '0x0AD50201807B615a71a39c775089C9261A667780',
-                        ],
-                        optionalDVNThreshold: 2,
-                    },
-                },
-            },
-        },
-        {
-            from: fujiContract,
-            to: amoyContract,
-        },
-        {
-            from: sepoliaContract,
-            to: fujiContract,
-        },
-        {
-            from: sepoliaContract,
-            to: amoyContract,
-        },
-        {
-            from: amoyContract,
-            to: sepoliaContract,
-        },
-        {
-            from: amoyContract,
-            to: fujiContract,
-        },
-    ],
-}
-
-export default config
+    contractName: "MyOApp"
+};
+const hedera_testnetContract = {
+    eid: EndpointId.HEDERA_V2_TESTNET,
+    contractName: "MyOApp"
+};
+export default { contracts: [{ contract: avalanche_testnetContract }, { contract: hedera_testnetContract }], connections: [{ from: avalanche_testnetContract, to: hedera_testnetContract, config: { sendLibrary: "0x69BF5f48d2072DfeBc670A1D19dff91D0F4E8170", receiveLibraryConfig: { receiveLibrary: "0x819F0FAF2cb1Fba15b9cB24c9A2BDaDb0f895daf", gracePeriod: 0 }, sendConfig: { executorConfig: { maxMessageSize: 10000, executor: "0xa7BFA9D51032F82D649A501B6a1f922FC2f7d4e3" }, ulnConfig: { confirmations: 6, requiredDVNs: ["0x9f0e79Aeb198750F963b6f30B99d87c6EE5A0467"], optionalDVNs: [], optionalDVNThreshold: 0 } }, receiveConfig: { ulnConfig: { confirmations: 1, requiredDVNs: ["0x9f0e79Aeb198750F963b6f30B99d87c6EE5A0467"], optionalDVNs: [], optionalDVNThreshold: 0 } } } }, { from: hedera_testnetContract, to: avalanche_testnetContract, config: { sendLibrary: "0x1707575F7cEcdC0Ad53fde9ba9bda3Ed5d4440f4", receiveLibraryConfig: { receiveLibrary: "0xc0c34919A04d69415EF2637A3Db5D637a7126cd0", gracePeriod: 0 }, sendConfig: { executorConfig: { maxMessageSize: 10000, executor: "0xe514D331c54d7339108045bF4794F8d71cad110e" }, ulnConfig: { confirmations: 1, requiredDVNs: ["0xEc7Ee1f9e9060e08dF969Dc08EE72674AfD5E14D"], optionalDVNs: [], optionalDVNThreshold: 0 } }, receiveConfig: { ulnConfig: { confirmations: 6, requiredDVNs: ["0xEc7Ee1f9e9060e08dF969Dc08EE72674AfD5E14D"], optionalDVNs: [], optionalDVNThreshold: 0 } } } }] };
