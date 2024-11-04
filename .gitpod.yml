@@ -1,5 +1,5 @@
 tasks:
   - name: Setup environment
     init: |
-      cp .env.sample .env
+      cp .env.example .env
       pnpm install
