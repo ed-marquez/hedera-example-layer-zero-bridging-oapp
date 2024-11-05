@@ -1,6 +1,6 @@
-# Send a Message Between Chains Using LayerZero & Hedera
+# Send Cross Chain Message from Hedera to Avalanche Testnets Using LayerZero
 
-This repository shows how to use LayerZero with Hedera. It specifically demonstrates how to send a message between Hedera and Avalanche using LayerZero's OApp (Omnichain Application).
+This repository shows how to use LayerZero with Hedera. It specifically demonstrates how to send a message between Hedera and Avalanche testnets using LayerZero's [OApp (Omnichain Application) Standard](https://docs.layerzero.network/v2/home/token-standards/oapp-standard).
 
 LayerZero's OApp enables communication between smart contracts across different blockchains. It provides developers with a standard message-passing interface, which lets applications like DeFi protocols, DAOs, or NFTs interact cross-chain. Through OApp, a contract on one chain can send data or instructions to another chain. For more details on OApp, see the [References](./README.md#references) section.
 
@@ -43,7 +43,7 @@ LayerZero's OApp enables communication between smart contracts across different 
    ```
    MY_OAPP_HEDERA_CONTRACT_ADDRESS=0x6f5FeD9e63c0fAB53e2Ba1E0e76cA8C62A45758b
    ```
-6. Initialize the OApp configuration:
+6. Initialize the OApp configuration (ex Hedera Testnet -> Avalanche Fuji path set in [./layerzero.config.ts](https://github.com/hedera-dev/hedera-example-layer-zero-bridging-oapp/blob/main/layerzero.config.ts). Learn how to set custom config paths [here](https://docs.layerzero.network/v2/developers/evm/create-lz-oapp/configuring-pathways#adding-configurations)):
    ```bash
    npx hardhat lz:oapp:config:init --contract-name MyOApp --oapp-config layerzero.config.ts
    ```
